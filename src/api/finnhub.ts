@@ -1,15 +1,15 @@
 import axios from 'axios'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
-const finnhub = axios.create({
-  baseURL: 'https://finnhub.io/api/v1',
+const twelvedata = axios.create({
+  baseURL: 'https://api.twelvedata.com',
   timeout: 10000,
 })
 
-finnhub.interceptors.request.use((config) => {
+twelvedata.interceptors.request.use((config) => {
   const apiKey = usePreferencesStore.getState().apiKey
-  config.params = { ...config.params, token: apiKey }
+  config.params = { ...config.params, apikey: apiKey }
   return config
 })
 
-export default finnhub
+export default twelvedata

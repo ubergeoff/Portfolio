@@ -1,35 +1,21 @@
-import { format, fromUnixTime, subDays, subMonths, subYears, startOfDay } from 'date-fns'
-import type { FinnhubCandleResponse, PriceCandle, ChartRange } from '@/types'
+import type { TwelveDataTimeSeries, PriceCandle, ChartRange } from '@/types'
 import { CHART_RANGES } from '@/constants/ranges'
 
-export function getRangeTimestamps(range: ChartRange): { from: number; to: number; resolution: string } {
+export function getRangeParams(range: ChartRange): { interval: string; outputsize: number } {
   const config = CHART_RANGES.find(r => r.label === range)!
-  const to = Math.floor(Date.now() / 1000)
-  let fromDate: Date
-  const now = new Date()
-
-  switch (range) {
-    case '1D': fromDate = subDays(startOfDay(now), 1); break
-    case '1W': fromDate = subDays(now, 7); break
-    case '1M': fromDate = subMonths(now, 1); break
-    case '3M': fromDate = subMonths(now, 3); break
-    case '1Y': fromDate = subYears(now, 1); break
-    default:   fromDate = subMonths(now, 1)
-  }
-
-  return { from: Math.floor(fromDate.getTime() / 1000), to, resolution: config.resolution }
+  return { interval: config.interval, outputsize: config.outputsize }
 }
 
-export function transformCandles(response: FinnhubCandleResponse): PriceCandle[] {
-  if (response.s !== 'ok' || !response.t?.length) return []
+export function transformCandles(response: TwelveDataTimeSeries): PriceCandle[] {
+  if (response.status !== 'ok' || !response.values?.length) return []
 
-  return response.t.map((timestamp, i) => ({
-    time: format(fromUnixTime(timestamp), 'yyyy-MM-dd'),
-    open: response.o[i],
-    high: response.h[i],
-    low: response.l[i],
-    close: response.c[i],
-    volume: response.v[i],
+  return [...response.values].reverse().map((v) => ({
+    time: v.datetime.split(' ')[0],
+    open: parseFloat(v.open),
+    high: parseFloat(v.high),
+    low: parseFloat(v.low),
+    close: parseFloat(v.close),
+    volume: parseFloat(v.volume),
   }))
 }
 

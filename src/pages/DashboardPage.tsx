@@ -32,7 +32,7 @@ export function DashboardPage() {
     })),
   })
 
-  const quotesMap: Record<string, import('@/types').FinnhubQuote> = {}
+  const quotesMap: Record<string, import('@/types').TwelveDataQuote> = {}
   watchlist.forEach((stock, i) => {
     const data = quoteQueries[i]?.data
     if (data) quotesMap[stock.symbol] = data
@@ -40,7 +40,7 @@ export function DashboardPage() {
 
   const pricesMap: Record<string, number> = {}
   allSymbols.forEach((sym) => {
-    pricesMap[sym] = livePrices[sym] ?? quotesMap[sym]?.c ?? 0
+    pricesMap[sym] = livePrices[sym] ?? quotesMap[sym]?.close ?? 0
   })
 
   const totals = computePortfolioTotals(holdings, pricesMap)

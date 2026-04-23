@@ -31,11 +31,11 @@ export function SettingsPage() {
       <section className="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
         <div className="flex items-center gap-2.5 px-4 py-3 border-b border-slate-800/60">
           <Key className="w-4 h-4 text-sky-400" />
-          <h2 className="text-slate-200 font-medium text-sm">Finnhub API Key</h2>
+          <h2 className="text-slate-200 font-medium text-sm">Twelve Data API Key</h2>
         </div>
         <div className="p-4 space-y-3">
           <p className="text-slate-500 text-sm">
-            Required to fetch live stock prices. Get a free key at finnhub.io.
+            Required to fetch live stock prices. Get a free key at twelvedata.com.
           </p>
           <div className="flex gap-2">
             <div className="relative flex-1">
@@ -43,7 +43,7 @@ export function SettingsPage() {
                 type={showKey ? 'text' : 'password'}
                 value={keyInput}
                 onChange={(e) => setKeyInput(e.target.value)}
-                placeholder="Your Finnhub API key"
+                placeholder="Your Twelve Data API key"
                 className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 pr-10 text-slate-200 placeholder:text-slate-500 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
               />
               <button

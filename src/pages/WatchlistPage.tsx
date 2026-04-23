@@ -30,7 +30,7 @@ export function WatchlistPage() {
     })),
   })
 
-  const quotesMap: Record<string, import('@/types').FinnhubQuote> = {}
+  const quotesMap: Record<string, import('@/types').TwelveDataQuote> = {}
   stocks.forEach((stock, i) => {
     const data = quoteQueries[i]?.data
     if (data) quotesMap[stock.symbol] = data

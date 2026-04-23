@@ -2,19 +2,19 @@ import { Link } from 'react-router-dom'
 import { Trash2 } from 'lucide-react'
 import { formatCurrency } from '@/lib/formatters'
 import { ChangeIndicator } from './ChangeIndicator'
-import type { Stock, FinnhubQuote } from '@/types'
+import type { Stock, TwelveDataQuote } from '@/types'
 
 interface StockRowProps {
   stock: Stock
-  quote?: FinnhubQuote
+  quote?: TwelveDataQuote
   livePrice?: number
   onRemove?: () => void
 }
 
 export function StockRow({ stock, quote, livePrice, onRemove }: StockRowProps) {
-  const price = livePrice ?? quote?.c ?? 0
-  const change = quote?.d ?? 0
-  const changePct = quote?.dp ?? 0
+  const price = livePrice ?? quote?.close ?? 0
+  const change = quote?.change ?? 0
+  const changePct = quote?.percent_change ?? 0
 
   return (
     <div className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800/40 rounded-lg transition-colors group">

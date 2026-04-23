@@ -1,47 +1,49 @@
-export interface FinnhubQuote {
-  c: number   // current price
-  d: number   // change
-  dp: number  // percent change
-  h: number   // day high
-  l: number   // day low
-  o: number   // open
-  pc: number  // previous close
-  t: number   // timestamp
+export interface TwelveDataQuote {
+  close: number
+  change: number
+  percent_change: number
+  high: number
+  low: number
+  open: number
+  previous_close: number
+  datetime: string
+  symbol: string
 }
 
-export interface FinnhubSearchResult {
+export interface TwelveDataSearchResult {
   count: number
-  result: {
-    description: string
-    displaySymbol: string
+  status: string
+  data: {
     symbol: string
-    type: string
+    instrument_name: string
+    exchange: string
+    instrument_type: string
+    country: string
+    currency: string
   }[]
 }
 
 export interface StockProfile {
-  country: string
-  currency: string
-  exchange: string
-  ipo: string
-  logo: string
-  marketCapitalization: number
+  symbol: string
   name: string
-  phone: string
-  shareOutstanding: number
-  ticker: string
-  weburl: string
-  finnhubIndustry: string
+  exchange: string
+  sector: string
+  industry: string
+  website: string
+  country: string
+  currency?: string
 }
 
-export interface FinnhubCandleResponse {
-  c: number[]
-  h: number[]
-  l: number[]
-  o: number[]
-  s: string
-  t: number[]
-  v: number[]
+export interface TwelveDataTimeSeries {
+  status: string
+  values: {
+    datetime: string
+    open: string
+    high: string
+    low: string
+    close: string
+    volume: string
+  }[]
 }
 
 export interface PriceCandle {
@@ -91,8 +93,8 @@ export type ChartRange = '1D' | '1W' | '1M' | '3M' | '1Y'
 
 export interface RangeConfig {
   label: ChartRange
-  resolution: string
-  days: number
+  interval: string
+  outputsize: number
 }
 
 export interface LivePrice {

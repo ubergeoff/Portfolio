@@ -1,6 +1,6 @@
 type TradeCallback = (symbol: string, price: number, timestamp: number) => void
 
-export class FinnhubWebSocket {
+export class TwelveDataWebSocket {
   private ws: WebSocket | null = null
   private apiKey: string
   private subscribedSymbols = new Set<string>()
@@ -16,7 +16,7 @@ export class FinnhubWebSocket {
   connect() {
     if (this.ws?.readyState === WebSocket.OPEN) return
 
-    this.ws = new WebSocket(`wss://ws.finnhub.io?token=${this.apiKey}`)
+    this.ws = new WebSocket(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${this.apiKey}`)
 
     this.ws.addEventListener('open', () => {
       this.subscribedSymbols.forEach((symbol) => this.sendSubscribe(symbol))
@@ -25,10 +25,8 @@ export class FinnhubWebSocket {
     this.ws.addEventListener('message', (event) => {
       try {
         const msg = JSON.parse(event.data as string)
-        if (msg.type === 'trade' && Array.isArray(msg.data)) {
-          for (const trade of msg.data) {
-            this.onTrade(trade.s, trade.p, trade.t)
-          }
+        if (msg.event === 'price') {
+          this.onTrade(msg.symbol, parseFloat(msg.price), msg.timestamp)
         }
       } catch { /* ignore malformed messages */ }
     })
@@ -54,7 +52,7 @@ export class FinnhubWebSocket {
   unsubscribe(symbol: string) {
     this.subscribedSymbols.delete(symbol)
     if (this.ws?.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify({ type: 'unsubscribe', symbol }))
+      this.ws.send(JSON.stringify({ action: 'unsubscribe', params: { symbols: symbol } }))
     }
   }
 
@@ -66,6 +64,6 @@ export class FinnhubWebSocket {
   }
 
   private sendSubscribe(symbol: string) {
-    this.ws?.send(JSON.stringify({ type: 'subscribe', symbol }))
+    this.ws?.send(JSON.stringify({ action: 'subscribe', params: { symbols: symbol } }))
   }
 }

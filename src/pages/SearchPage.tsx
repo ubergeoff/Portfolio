@@ -52,7 +52,7 @@ export function SearchPage() {
 
       {!isLoading && debouncedQuery && data && (
         <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
-          {data.result.length > 0 ? (
+          {data.data.length > 0 ? (
             <>
               <div className="px-4 py-2.5 border-b border-slate-800/60">
                 <p className="text-slate-500 text-xs">
@@ -60,13 +60,13 @@ export function SearchPage() {
                 </p>
               </div>
               <div className="p-1">
-                {data.result.map((r) => (
+                {data.data.map((r) => (
                   <SearchResultItem
                     key={r.symbol}
                     symbol={r.symbol}
-                    description={r.description}
-                    type={r.type}
-                    displaySymbol={r.displaySymbol}
+                    description={r.instrument_name}
+                    type={r.instrument_type}
+                    displaySymbol={r.symbol}
                   />
                 ))}
               </div>

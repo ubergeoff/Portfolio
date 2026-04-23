@@ -4,11 +4,11 @@ import { cn } from '@/lib/cn'
 import { formatCurrency } from '@/lib/formatters'
 import { ChangeIndicator } from './ChangeIndicator'
 import { MiniSparkline } from './MiniSparkline'
-import type { Stock, FinnhubQuote, PriceCandle } from '@/types'
+import type { Stock, TwelveDataQuote, PriceCandle } from '@/types'
 
 interface StockCardProps {
   stock: Stock
-  quote?: FinnhubQuote
+  quote?: TwelveDataQuote
   candles?: PriceCandle[]
   livePrice?: number
   isWatchlisted: boolean
@@ -16,8 +16,8 @@ interface StockCardProps {
 }
 
 export function StockCard({ stock, quote, candles, livePrice, isWatchlisted, onToggleWatchlist }: StockCardProps) {
-  const price = livePrice ?? quote?.c ?? 0
-  const change = quote?.dp ?? 0
+  const price = livePrice ?? quote?.close ?? 0
+  const change = quote?.percent_change ?? 0
   const isPositive = change >= 0
 
   return (

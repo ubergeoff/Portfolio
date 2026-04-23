@@ -34,19 +34,19 @@ export function ApiKeyModal() {
           </div>
           <div>
             <h1 className="text-slate-100 font-semibold text-lg">Welcome to SharesTracker</h1>
-            <p className="text-slate-400 text-sm">Enter your Finnhub API key to get started</p>
+            <p className="text-slate-400 text-sm">Enter your Twelve Data API key to get started</p>
           </div>
         </div>
 
         <div className="bg-slate-800/60 rounded-xl p-4 mb-6 text-sm text-slate-400 space-y-1.5">
           <p className="font-medium text-slate-300">How to get a free API key:</p>
           <ol className="list-decimal list-inside space-y-1 text-slate-400">
-            <li>Visit finnhub.io and create a free account</li>
+            <li>Visit twelvedata.com and create a free account</li>
             <li>Copy your API key from the dashboard</li>
             <li>Paste it below — it's stored only in your browser</li>
           </ol>
           <a
-            href="https://finnhub.io/register"
+            href="https://twelvedata.com/account/api-keys"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 mt-1"

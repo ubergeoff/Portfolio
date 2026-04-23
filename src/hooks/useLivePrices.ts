@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { FinnhubWebSocket } from '@/api/websocket'
+import { TwelveDataWebSocket } from '@/api/websocket'
 import { usePreferencesStore } from '@/stores/preferencesStore'
 
 export function useLivePrices(symbols: string[]) {
   const apiKey = usePreferencesStore((s) => s.apiKey)
   const [prices, setPrices] = useState<Record<string, number>>({})
-  const wsRef = useRef<FinnhubWebSocket | null>(null)
+  const wsRef = useRef<TwelveDataWebSocket | null>(null)
   const symbolsRef = useRef<string[]>([])
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export function useLivePrices(symbols: string[]) {
     }
 
     if (!wsRef.current) {
-      wsRef.current = new FinnhubWebSocket(apiKey, onTrade)
+      wsRef.current = new TwelveDataWebSocket(apiKey, onTrade)
       wsRef.current.connect()
     }
 

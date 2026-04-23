@@ -38,9 +38,9 @@ export function StockDetailPage() {
       addStock({
         symbol,
         name: profile?.name ?? symbol,
-        logo: profile?.logo ?? '',
+        logo: '',
         exchange: profile?.exchange ?? '',
-        industry: profile?.finnhubIndustry ?? '',
+        industry: profile?.industry ?? '',
         currency: profile?.currency ?? 'USD',
         addedAt: Date.now(),
       })
@@ -86,10 +86,10 @@ export function StockDetailPage() {
       {/* Price */}
       {quote && (
         <div className="flex items-center gap-4">
-          <span className="text-3xl font-bold text-slate-100 tabular-nums">{formatCurrency(quote.c)}</span>
+          <span className="text-3xl font-bold text-slate-100 tabular-nums">{formatCurrency(quote.close)}</span>
           <div>
-            <ChangeIndicator value={quote.dp} className="text-base" />
-            <p className="text-slate-500 text-xs">{quote.d >= 0 ? '+' : ''}{formatCurrency(quote.d)} today</p>
+            <ChangeIndicator value={quote.percent_change} className="text-base" />
+            <p className="text-slate-500 text-xs">{quote.change >= 0 ? '+' : ''}{formatCurrency(quote.change)} today</p>
           </div>
         </div>
       )}
@@ -98,11 +98,11 @@ export function StockDetailPage() {
       {quote && (
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
           {[
-            { label: 'Open', value: fc(quote.o) },
-            { label: 'High', value: fc(quote.h) },
-            { label: 'Low', value: fc(quote.l) },
-            { label: 'Prev Close', value: fc(quote.pc) },
-            { label: 'Mkt Cap', value: profile ? formatLargeNumber(profile.marketCapitalization * 1e6) : '—' },
+            { label: 'Open', value: fc(quote.open) },
+            { label: 'High', value: fc(quote.high) },
+            { label: 'Low', value: fc(quote.low) },
+            { label: 'Prev Close', value: fc(quote.previous_close) },
+            { label: 'Mkt Cap', value: '—' },
             { label: 'Currency', value: profile?.currency ?? '—' },
           ].map(({ label, value }) => (
             <div key={label} className="bg-slate-800/60 border border-slate-700/40 rounded-lg px-3 py-2">
@@ -133,21 +133,21 @@ export function StockDetailPage() {
         <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
           <h2 className="text-slate-300 font-medium text-sm mb-3">Company Info</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-            {profile.finnhubIndustry && (
+            {profile.industry && (
               <div className="flex items-center gap-2 text-slate-400">
                 <Building2 className="w-4 h-4 flex-shrink-0 text-slate-600" />
-                <span>{profile.finnhubIndustry}</span>
+                <span>{profile.industry}</span>
               </div>
             )}
-            {profile.weburl && (
+            {profile.website && (
               <a
-                href={profile.weburl}
+                href={profile.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors"
               >
                 <Globe className="w-4 h-4 flex-shrink-0" />
-                <span className="truncate">{profile.weburl.replace(/^https?:\/\//, '')}</span>
+                <span className="truncate">{profile.website.replace(/^https?:\/\//, '')}</span>
                 <ExternalLink className="w-3 h-3 flex-shrink-0" />
               </a>
             )}
